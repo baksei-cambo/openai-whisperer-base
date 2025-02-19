@@ -4,10 +4,13 @@ FROM python:3.10
 # Set working directory
 WORKDIR /app
 
+# Fix apt-get update issue by cleaning the lists first
+RUN rm -rf /var/lib/apt/lists/* && mkdir -p /var/lib/apt/lists/partial
+
 # Install system dependencies
 RUN apt-get update && \
-    apt-get install -y ffmpeg && \
-    rm -rf /var/lib/apt/lists/*  # Fix apt-get cleanup issue
+    apt-get install -y --no-install-recommends ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
