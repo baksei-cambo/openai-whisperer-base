@@ -7,7 +7,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ffmpeg && \
-    && ln -s /usr/bin/ffmpeg /usr/local/bin/ffmpeg
+    ln -s /usr/bin/ffmpeg /usr/local/bin/ffmpeg
 
 # Upgrade pip
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel --root-user-action=ignore
