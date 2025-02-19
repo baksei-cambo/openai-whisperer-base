@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel --root-user-action
 RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 --root-user-action=ignore
 
 # Install OpenAI Whisper & Flask
-RUN pip install --no-cache-dir openai-whisper flask --root-user-action=ignor
+RUN pip install --no-cache-dir openai-whisper flask --root-user-action=ignore
 
 # Create directories and set permissions for non-root user
 RUN mkdir -p /app/model_cache /app/data /tmp && \
