@@ -20,6 +20,6 @@ Supports **asynchronous transcription**, **file caching (SHA256 hash)** to avoid
 ### 🔹 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/whisper-api.git
-cd whisper-api
+git clone https://github.com/baksei-cambo/openai-whisperer-base
+cd openai-whisperer-base
 ```
