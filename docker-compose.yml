@@ -1,0 +1,10 @@
+services:
+  whisper-api:
+    build: .
+    ports:
+      - "8888:5000"
+    volumes:
+      - ./data:/app/model_cache
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
