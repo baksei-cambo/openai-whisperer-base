@@ -4,31 +4,21 @@ FROM python:3.10-bullseye
 # Set working directory
 WORKDIR /app
 
-# Fix apt-get update issue by cleaning the lists first
-# RUN rm -rf /var/lib/apt/lists/* && mkdir -p /var/lib/apt/lists/partial
+# Install dependencies
+RUN apt-get update && apt-get install -y ffmpeg \
+    && ln -s /usr/bin/ffmpeg /usr/local/bin/ffmpeg \
+    && pip install --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 \
+    && pip install --no-cache-dir openai-whisper flask
 
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ffmpeg &&
-# rm -rf /var/lib/apt/lists/*
+# Create model cache directory and download model
+RUN mkdir -p /app/model_cache \
+    && python -c "import whisper; whisper.load_model('base', download_root='/app/model_cache')"
 
-# Upgrade pip
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
-
-# Install PyTorch with CUDA support
-RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-
-# Install OpenAI Whisper & Flask
-RUN pip install --no-cache-dir openai-whisper flask
-
-# Create model cache directory & pre-load Whisper model
-RUN mkdir -p /app/model_cache && \
-    python -c "import whisper; whisper.load_model('base', download_root='/app/model_cache')"
-
-# Copy project files
+# Copy project files into container
 COPY . .
 
-# Expose API port
+# Expose Flask API port
 EXPOSE 5000
 
 # Run the Flask app
